@@ -133,8 +133,8 @@ module.exports = function(app) {
     	}).end();
 
   });
-  app.use('/api/*', router);
-  app.get('/', function(req, res) {
+  app.use('/api', router);
+  app.get('*', function(req, res) {
       res.sendFile('/home/pi/web/public/index.html'); // load our public/index.html file
   });
 
