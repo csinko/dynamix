@@ -8,7 +8,11 @@ module.exports = function(app) {
 
   var client_id = 'eafbafd8462c416e9683f2cbecced544'; // Your client id
   var client_secret = '6d0b5783b6954ddf8d156dcd34bbb035'; // Your secret
+
+  //var redirect_uri = 'http://localhost:8888/api/spotify/callback';
+
   var redirect_uri = 'http://dynamix.tech:8888/api/spotify/callback'; // Your redirect uri
+
   var stateKey = 'spotify_auth_state';
 
   var user_data = [];
@@ -139,13 +143,13 @@ module.exports = function(app) {
 
           //Get tracks from spotify
           var options = {
-            url: 'https://api.spotify.com/v1/audio-features?ids=4JpKVNYnVcJ8tuMKjAj50A,2NRANZE9UCmPAS5XVbXL40,24JygzOLM0EmRQeGtFcIcG',
+            url: 'https://api.spotify.com/v1/users/spotify/playlists/1GQLlzxBxKTb6tJsD4RxHI?market=ES',
             headers: { 'Authorization': 'Bearer ' + access_token },
             json: true
           };
 
           request.get(options, function(error, response, body) {
-            console.log(body);
+            console.log(body.tracks.items[0]);
           });
 
           res.redirect('/#' + querystring.stringify({
