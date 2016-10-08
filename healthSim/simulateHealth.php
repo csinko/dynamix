@@ -1,4 +1,5 @@
-<?php include("global/header.html"); ?>
+<?php include("global/header.html"); 
+phpinfo()?>
 
 <html>
 
