@@ -1,12 +1,3 @@
-/**
- * This is an example of a basic node.js script that performs
- * the Authorization Code oAuth2 flow to authenticate against
- * the Spotify Accounts.
- *
- * For more information, read
- * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
- */
-
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
@@ -14,7 +5,7 @@ var cookieParser = require('cookie-parser');
 
 var client_id = 'eafbafd8462c416e9683f2cbecced544'; // Your client id
 var client_secret = '6d0b5783b6954ddf8d156dcd34bbb035'; // Your secret
-var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+var redirect_uri = '/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -38,9 +29,12 @@ var app = express();
 app.use(express.static(__dirname + '/public'))
    .use(cookieParser());
 
+
+//Login page for Spotify API
 app.get('/login', function(req, res) {
 
-  var state = generateRandomString(16);
+  //var state = generateRandomString(16);
+  var state = "Online"
   res.cookie(stateKey, state);
 
   // your application requests authorization
@@ -100,7 +94,7 @@ app.get('/callback', function(req, res) {
         request.get(options, function(error, response, body) {
           console.log(body);
         });
-		
+
 		var options = {
           url: 'https://api.spotify.com/v1/audio-features?ids=4JpKVNYnVcJ8tuMKjAj50A,2NRANZE9UCmPAS5XVbXL40,24JygzOLM0EmRQeGtFcIcG',
           headers: { 'Authorization': 'Bearer ' + access_token },
@@ -153,7 +147,7 @@ app.get('/refresh_token', function(req, res) {
 });
 
 app.get('/refresh_test',function(req, res) {
-	
+	//this is an update to app.js
 
 var options = {
 	  host: url,
