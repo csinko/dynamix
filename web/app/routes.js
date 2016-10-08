@@ -54,7 +54,7 @@ module.exports = function(app) {
         json: true
       };
 
-      request.post(authOptions, function(error, response, body) {
+      req.post(authOptions, function(error, response, body) {
         if (!error && response.statusCode === 200) {
           var access_token = body.access_token,
               refresh_token = body.refresh_token;
@@ -65,7 +65,7 @@ module.exports = function(app) {
             json: true
           };
 
-          request.get(options, function(error, response, body) {
+          req.get(options, function(error, response, body) {
             console.log(body);
           });
 
@@ -76,7 +76,7 @@ module.exports = function(app) {
             json: true
           };
 
-          request.get(options, function(error, response, body) {
+          req.get(options, function(error, response, body) {
             console.log(body);
           });
 
