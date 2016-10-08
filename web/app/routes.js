@@ -2,6 +2,10 @@ var express  = require('express');
 module.exports = function(app) {
 
   var router = express.Router();
+  router.use(function(req, res, next) {
+  console.log('Incoming:');
+  next();
+});
 
   router.route('/login')
   .get(function(req, res) {
