@@ -89,7 +89,7 @@ app.get('/callback', function(req, res) {
         // use the access token to access the Spotify Web API
         request.get(options, function(error, response, body) {
           sort_tracks(body);
-          console.log(body);
+          //console.log(body);
         });
 
         // we can also pass the token to the browser to make requests from there
@@ -110,9 +110,13 @@ app.get('/callback', function(req, res) {
 
 function sort_tracks(data) {
   console.log("Sorting Tracks-------------------");
+  //console.log("");
+  //console.log(data);
+  //console.log("Track Data Printed");
   console.log("");
-  console.log(data);
-  console.log("Track Data Printed");
+  for(var i = 0; i < data.length; i++) {
+    console.log(data[i].dancibility);
+  }
 }
 
 app.get('/refresh_token', function(req, res) {
