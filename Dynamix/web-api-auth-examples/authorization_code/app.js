@@ -115,10 +115,25 @@ function sort_tracks(data) {
   //console.log("Track Data Printed");
   console.log("");
   tracks = data.audio_features;
+  tracks.sort(sort_by('danceability', false, parseFloat));
   for(var i = 0; i < tracks.length; i++) {
     console.log(tracks[i]);
   }
 }
+
+var sort_by = function(field, reverse, primer){
+
+   var key = primer ?
+       function(x) {return primer(x[field])} :
+       function(x) {return x[field]};
+
+   reverse = !reverse ? 1 : -1;
+
+   return function (a, b) {
+       return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+     }
+}
+
 
 app.get('/refresh_token', function(req, res) {
 
