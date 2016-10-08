@@ -2,6 +2,7 @@ var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
+var mongoose = require('mongoose');
 
 var client_id = 'eafbafd8462c416e9683f2cbecced544'; // Your client id
 var client_secret = '6d0b5783b6954ddf8d156dcd34bbb035'; // Your secret

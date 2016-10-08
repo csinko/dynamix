@@ -8,7 +8,11 @@ var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
+var mongoose = require('mongoose');
 var app = express();
+
+var db = require('./config/db');
+mongoose.connect(db.url);
 
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'))
