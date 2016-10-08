@@ -1,5 +1,6 @@
 var express  = require('express');
 var querystring = require('querystring');
+var request = require('request');
 module.exports = function(app) {
   var client_id = 'eafbafd8462c416e9683f2cbecced544'; // Your client id
   var client_secret = '6d0b5783b6954ddf8d156dcd34bbb035'; // Your secret
@@ -54,7 +55,7 @@ module.exports = function(app) {
         json: true
       };
 
-      req.post(authOptions, function(error, response, body) {
+      request.post(authOptions, function(error, response, body) {
         if (!error && response.statusCode === 200) {
           var access_token = body.access_token,
               refresh_token = body.refresh_token;
@@ -65,7 +66,7 @@ module.exports = function(app) {
             json: true
           };
 
-          req.get(options, function(error, response, body) {
+          request.get(options, function(error, response, body) {
             console.log(body);
           });
 
@@ -76,7 +77,7 @@ module.exports = function(app) {
             json: true
           };
 
-          req.get(options, function(error, response, body) {
+          request.get(options, function(error, response, body) {
             console.log(body);
           });
 
