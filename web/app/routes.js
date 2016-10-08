@@ -20,7 +20,7 @@ module.exports = function(app) {
 
   var Schema = mongoose.Schema;
   //10 second timer to check user_data
-  setInterval(function() { console.log("There are " + user_data.length + "objects in user_data" ); }, 10000);
+  setInterval(function() { console.log("There are " + user_data.length + " objects in user_data" ); }, 10000);
 
     var mixSchema = new Schema({
       user_id: Number,
@@ -61,9 +61,9 @@ module.exports = function(app) {
       return;
     }
     if(!data_obj.hasOwnProperty('heart_rate')) {
-      console.log('Error: No user_id');
+      console.log('Error: No heart_rate');
       res.status(400).json({
-        message: 'Error: no user_id'
+        message: 'Error: no heart_rate'
       });
       return;
     }
