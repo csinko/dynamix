@@ -114,8 +114,9 @@ function sort_tracks(data) {
   //console.log(data);
   //console.log("Track Data Printed");
   console.log("");
-  for(var i = 0; i < data.length; i++) {
-    console.log(data[i]);
+  tracks = data.audio_features;
+  for(var i = 0; i < tracks.length; i++) {
+    console.log(tracks[i]);
   }
 }
 
