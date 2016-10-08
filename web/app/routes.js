@@ -11,9 +11,12 @@ module.exports = function(app) {
   var redirect_uri = 'http://dynamix.tech:8888/api/spotify/callback'; // Your redirect uri
   var stateKey = 'spotify_auth_state';
 
+  var user_data = [];
+
+
   var Schema = mongoose.Schema;
-  //test interval function
-  //setInterval(function() { console.log("setInterval: It's been one second!"); }, 1000);
+  //10 second timer to check user_data
+  setInterval(function() { console.log("There are " + user_data.length + "objects in user_data" ); }, 10000);
 
     var mixSchema = new Schema({
       user_id: Number,
@@ -33,11 +36,36 @@ module.exports = function(app) {
 
   router.route('/mix')
   .post(function(req, res) {
+
+    if(!req.body.hasOwnProperty('user_id')) {
+      console.log('Error: No user_id');
+      res.status(400).json({
+        message: 'Error: no user_id'
+      });
+      return;
+    }
+    if(!req.body.hasOwnProperty('heart_rate')) {
+      console.log('Error: No user_id');
+      res.status(400).json({
+        message: 'Error: no user_id'
+      });
+      return;
+    }
+    if(!req.body.hasOwnProperty('steps')) {
+      console.log('Error: No steps');
+      res.status(400).json({
+        message: 'Error: no steps'
+      });
+      return;
+    }
+
     var mix = new mixModel({
-      user_id: 1,
-      heart_rate: 120,
-      steps: 50
+      user_id: req.body.user_id,
+      heart_rate: req.body.heart_rate,
+      steps: req.body.steps
     });
+
+    user_data.push(mix);
 
     mix.save(function(err) {
       if (err) {
