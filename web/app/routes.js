@@ -12,7 +12,8 @@ module.exports = function(app) {
   var stateKey = 'spotify_auth_state';
 
   var Schema = mongoose.Schema;
-  setInterval(function() { console.log("setInterval: It's been one second!"); }, 1000);
+  //test interval function
+  //setInterval(function() { console.log("setInterval: It's been one second!"); }, 1000);
 
     var mixSchema = new Schema({
       user_id: Number,
