@@ -17,7 +17,7 @@ module.exports = function(app) {
 
     //app requests authorization
     var scope = 'user-read-private user-read-email';
-    res.redirect('https://accounts.spotify.com/authorize?' +
+    res.send('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
           response_type: 'code',
           cliend_id: client_id,
