@@ -115,7 +115,7 @@ function sort_tracks(data) {
   //console.log("Track Data Printed");
   console.log("");
   for(var i = 0; i < data.length; i++) {
-    console.log(data[i].dancibility);
+    console.log(data[i];
   }
 }
 
