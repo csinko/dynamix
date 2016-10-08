@@ -14,9 +14,9 @@ var app = express();
 app.use(express.static(__dirname + '/public'))
    .use(cookieParser());
 
+
+//Route /login to spotify authorization
 app.get('/login', function(req, res) {
-
-
   var state = "online"
   res.cookie(stateKey, state);
 
@@ -32,6 +32,7 @@ app.get('/login', function(req, res) {
     }));
 });
 
+//Route callback to spotify info page
 app.get('/callback', function(req, res) {
 
   // your application requests refresh and access tokens
@@ -78,6 +79,7 @@ app.get('/callback', function(req, res) {
           console.log(body);
         });
 
+//Get tracks from spotify
 		var options = {
           url: 'https://api.spotify.com/v1/audio-features?ids=4JpKVNYnVcJ8tuMKjAj50A,2NRANZE9UCmPAS5XVbXL40,24JygzOLM0EmRQeGtFcIcG',
           headers: { 'Authorization': 'Bearer ' + access_token },
@@ -86,6 +88,7 @@ app.get('/callback', function(req, res) {
 
         // use the access token to access the Spotify Web API
         request.get(options, function(error, response, body) {
+          sort_tracks(body);
           console.log(body);
         });
 
@@ -104,6 +107,13 @@ app.get('/callback', function(req, res) {
     });
   }
 });
+
+function sort_tracks(data) {
+  console.log("Sorting Tracks-------------------");
+  console.log("");
+  console.log(data);
+  console.log("Track Data Printed");
+}
 
 app.get('/refresh_token', function(req, res) {
 
