@@ -10,7 +10,7 @@ var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
 var app = express();
 
-app.use(Morgan('dev'));
+app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'))
    .use(cookieParser());
 
