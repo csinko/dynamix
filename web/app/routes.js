@@ -137,7 +137,7 @@ module.exports = function(app) {
   });
   app.use('/api', router);
   app.get('*', function(req, res) {
-      res.sendFile('/home/pi/web/public/index.html'); // load our public/index.html file
+      res.sendFile('./public/index.html'); // load our public/index.html file
   });
 
 
