@@ -133,4 +133,10 @@ module.exports = function(app) {
     	}).end();
 
   });
+
+  app.get('/', function(req, res) {
+      res.sendFile('/home/pi/web/public/index.html'); // load our public/index.html file
+  });
+  app.use('/*', router);
+  
 };
