@@ -2,7 +2,7 @@ var express  = require('express');
 module.exports = function(app) {
   var client_id = 'eafbafd8462c416e9683f2cbecced544'; // Your client id
   var client_secret = '6d0b5783b6954ddf8d156dcd34bbb035'; // Your secret
-  var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+  var redirect_uri = 'http://localhost:8888/api/spotify/callback'; // Your redirect uri
 
   var router = express.Router();
   router.use(function(req, res, next) {
@@ -10,7 +10,7 @@ module.exports = function(app) {
   next();
 });
 
-  router.route('/login')
+  router.route('/spotify/login')
   .get(function(req, res) {
     var state = "online";
     res.cookie(stateKey, state);
@@ -27,7 +27,7 @@ module.exports = function(app) {
         }));
   });
 
-  router.route('/callback')
+  router.route('/spotify/callback')
   .get(function(req, res) {
     var code = req.query.code || null;
     var state = req.query.state || null;
@@ -93,7 +93,7 @@ module.exports = function(app) {
     }
   });
 
-  router.route('/refresh_token', function(req, res) {
+  router.route('/api/spotify/refresh_token', function(req, res) {
     var refresh_token = req.query.refresh_token;
     var authOptions = {
       url: 'https://accounts.spotify.com/api/token',
@@ -115,7 +115,7 @@ module.exports = function(app) {
     });
   });
 
-  router.route('/refresh_test', function(req, res) {
+  router.route('/api/spotify/refresh_test', function(req, res) {
     var options = {
     	  host: url,
     	  port: 80,
@@ -133,10 +133,10 @@ module.exports = function(app) {
     	}).end();
 
   });
-
+  app.use('/api/*', router);
   app.get('/', function(req, res) {
       res.sendFile('/home/pi/web/public/index.html'); // load our public/index.html file
   });
-  app.use('/*', router);
-  
+
+
 };
