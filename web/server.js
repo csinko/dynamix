@@ -7,9 +7,10 @@ var querystring = require('querystring');
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
-
+var morgan = require('morgan');
 var app = express();
 
+app.use(Morgan('dev'));
 app.use(express.static(__dirname + '/public'))
    .use(cookieParser());
 
