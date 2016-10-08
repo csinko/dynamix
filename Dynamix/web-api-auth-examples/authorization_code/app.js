@@ -117,7 +117,7 @@ function sort_tracks(data) {
   tracks = data.audio_features;
   tracks.sort(sort_by('danceability', false, parseFloat));
   for(var i = 0; i < tracks.length; i++) {
-    console.log(tracks[i]);
+    console.log("Dancibility for track " + i + " : " + tracks[i].danceability);
   }
 }
 
