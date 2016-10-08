@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 
 var client_id = 'eafbafd8462c416e9683f2cbecced544'; // Your client id
 var client_secret = '6d0b5783b6954ddf8d156dcd34bbb035'; // Your secret
-var redirect_uri = 'http://ec2-54-200-135-221.us-west-2.compute.amazonaws.com:8888/callback'; // Your redirect uri
+var redirect_uri = 'http://54.200.135.221:8888/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -29,12 +29,10 @@ var app = express();
 app.use(express.static(__dirname + '/public'))
    .use(cookieParser());
 
-
-//Login page for Spotify API
 app.get('/login', function(req, res) {
 
   //var state = generateRandomString(16);
-  var state = "Online"
+  var state = "online"
   res.cookie(stateKey, state);
 
   // your application requests authorization
