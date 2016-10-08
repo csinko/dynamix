@@ -51,6 +51,8 @@ module.exports = function(app) {
       }
     }
     function add_mix_data(data_obj) {
+      console.log("ADDING MIX DATA");
+      console.log(data_obj);
     if(!data_obj.hasOwnProperty('user_id')) {
       console.log('Error: No user_id');
       res.status(400).json({
