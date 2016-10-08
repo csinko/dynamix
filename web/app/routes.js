@@ -21,7 +21,7 @@ module.exports = function(app) {
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
           response_type: 'code',
-          cliend_id: client_id,
+          client_id: client_id,
           scope: scope,
           redirect_uri: redirect_uri,
           state: state
