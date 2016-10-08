@@ -41,21 +41,31 @@ module.exports = function(app) {
   router.route('/mix')
   .post(function(req, res) {
 
-    if(!req.body.hasOwnProperty('user_id')) {
+    if (req.body.hasOwnProperty('type')) {
+      if (req.body.type == 'array') {
+        var objects = req.body.data;
+        for(var i=0; i < objects.length; i++) {
+          add_mix_data(objects[i]);
+        }
+
+      }
+    }
+    function add_mix_data(data_obj) {
+    if(!data_obj.hasOwnProperty('user_id')) {
       console.log('Error: No user_id');
       res.status(400).json({
         message: 'Error: no user_id'
       });
       return;
     }
-    if(!req.body.hasOwnProperty('heart_rate')) {
+    if(!data_obj.hasOwnProperty('heart_rate')) {
       console.log('Error: No user_id');
       res.status(400).json({
         message: 'Error: no user_id'
       });
       return;
     }
-    if(!req.body.hasOwnProperty('steps')) {
+    if(!data_obj.hasOwnProperty('steps')) {
       console.log('Error: No steps');
       res.status(400).json({
         message: 'Error: no steps'
@@ -64,9 +74,9 @@ module.exports = function(app) {
     }
 
     var mix = new mixModel({
-      user_id: req.body.user_id,
-      heart_rate: req.body.heart_rate,
-      steps: req.body.steps
+      user_id: data_obj.user_id,
+      heart_rate: data_obj.heart_rate,
+      steps: data_obj.steps
     });
 
     user_data.push(mix);
@@ -77,6 +87,7 @@ module.exports = function(app) {
         return;
       }
     });
+  }
 
     res.json({
       message: "mix saved in database"
