@@ -12,7 +12,7 @@ app.use(express.static(__dirname + '/public'))
    .use(cookieParser());
 
 //routing -----------------------------
-require('.app/routes')(app)
+require('./app/routes')(app)
 
 var port = 8888;
 //Start app at 8888;
