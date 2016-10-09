@@ -265,6 +265,7 @@ module.exports = function(app) {
     });
 
     console.log("AT END");
+  })
   .catch(function(err) {
     console.log('Something went wrong', err.message);
   });
