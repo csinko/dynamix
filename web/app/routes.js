@@ -60,7 +60,8 @@ module.exports = function(app) {
      }
 
      console.log("Specific Danceability: " + curr_danceability);
-     return (danceability + curr_danceability) *.5000000;
+     console.log("Avg Danceability: " + danceability);
+     return (danceability + curr_danceability) / 2;
    }
 
     var mixSchema = new Schema({
