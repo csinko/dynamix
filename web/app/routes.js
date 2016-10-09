@@ -20,7 +20,7 @@ module.exports = function(app) {
 
   var playlist_tracks = [];
   var spotify_user = "";
-  var dj_playlist = "";
+  var dj_playlist = [];
 
   var danceability = 0.5;
 
@@ -34,6 +34,7 @@ module.exports = function(app) {
   var stateKey = 'spotify_auth_state';
 
   var user_data = [];
+  var first_run = true;
 
 
   var Schema = mongoose.Schema;
@@ -46,9 +47,28 @@ module.exports = function(app) {
   setInterval(function() {
     console.log("Current Amount of user data is " + user_data.length);
     danceability = determine_danceability();
-    user_data = [];
-  //  console.log("Access code:" + access_code);
 
+    if(first_run) {
+      first_run = false;
+    }
+    else {
+      var best_track;
+      var danceability_difference = 1;
+      for(var i = 0; i < playlist_tracks.length; i++) {
+        if(Math.abs(playlist_tracks[i].danceability - danceability) < danceability_difference) {
+          best_track = playlist_tracksp[i];
+          danceability_difference = Math.abs(playlist_tracks[i].danceability - danceability);
+        }
+      }
+
+      spotifyApi.addTracksToPlaylist(spotify_user, dj_playlist, ["spotify:track:" + best_track.id])
+      .then(function(data) {
+        console.log('Added tracks to playlist!');
+      }, function(err) {
+        console.log('Something went wrong!', err);
+      });
+
+    }
    }, 10000);
 
    function determine_danceability() {
@@ -238,7 +258,7 @@ module.exports = function(app) {
         };
         playlist_tracks.push(track);
       }
-      console.log(playlist_tracks);
+        playlist_tracks.sort(sort_by('danceability', true, parseFloat));
     });
 
     console.log("AT END");
@@ -249,6 +269,19 @@ module.exports = function(app) {
   });
 });
 });
+
+var sort_by = function(field, reverse, primer) {
+
+  var key = primer ?
+  function(x) {return primer(x[field])} :
+  function(x) {return x[field]};
+
+  reverse = !reverse ? 1 : -1;
+
+  return function (a, b) {
+    return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+  }
+}
 
 
   router.route('/api/spotify/refresh_token', function(req, res) {
