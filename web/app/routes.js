@@ -218,7 +218,7 @@ module.exports = function(app) {
     return spotifyApi.getPlaylist('spotify', '1GQLlzxBxKTb6tJsD4RxHI')
   .then(function(data) {
     for(var i = 0; i < data.body.tracks.items.length; i++) {
-      var track_id = data.body.tracks.items[i].track.id);
+      var track_id = data.body.tracks.items[i].track.id;
       spotifyApi.getAudioFeatures(track_id).then(function(data) {
         console.log(data.body);
       }).catch(function(err) {
