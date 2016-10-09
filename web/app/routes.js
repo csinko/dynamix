@@ -265,17 +265,16 @@ module.exports = function(app) {
     });
 
     console.log("AT END");
-    spotifyApi.createPlaylist('mr005', 'Test Playlist', { 'public' : false })
+    return spotifyApi.createPlaylist('mr005', 'Test Playlist', { 'public' : false })
     .then(function(data) {
       console.log('Created playlist!');
-    }, function(err) {
-      console.log('Something went wrong!', err);
-    });
+    }
   })
   .catch(function(err) {
     console.log('Something went wrong', err.message);
   });
   });
+});
 });
 });
 
