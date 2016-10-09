@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 
 module.exports = function(app) {
 
+  var danceability = 0.5;
   var client_id = 'eafbafd8462c416e9683f2cbecced544'; // Your client id
   var client_secret = '6d0b5783b6954ddf8d156dcd34bbb035'; // Your secret
 
@@ -21,7 +22,7 @@ module.exports = function(app) {
   var Schema = mongoose.Schema;
   //10 second timer to check user_data
   setInterval(function() {
-    console.log("Current Number of Users is " + user_data.length);
+    console.log("Current Amount of user data is " + user_data.length);
     console.log("Current Danceability is " + determine_danceability());
     user_data = [];
 
@@ -29,12 +30,12 @@ module.exports = function(app) {
    }, 10000);
 
    function determine_danceability() {
-     var danceability = 0;
+     var curr_danceability = 0;
      var unique_users = [];
      for(var i = 0; i < user_data.length; i++) {
        user = user_data[i];
        user_danceability = (1/500) * user.steps + (1/600) * (user.heart_rate - 80);
-       danceability += user_danceability;
+       curr_danceability += user_danceability;
        var exists = false;
        for(var j = 0; j < unique_users.length; j++) {
          if (user_data[i].user_id == unique_users[j]) {
@@ -45,10 +46,18 @@ module.exports = function(app) {
          unique_users.push(user_data[i].user_id);
        }
      }
-     danceability /= user_data.length;
+     curr_danceability /= user_data.length;
      console.log(unique_users.length + " unique users");
-     danceability += (1/60) * unique_users.length;
-     return danceability;
+     curr_danceability += (1/60) * unique_users.length;
+     if (curr_danceability > 1) {
+       curr_danceability = 1;
+     }
+     if (curr_danceability < 0) {
+       curr_danceability = 0;
+     }
+
+     console.log("Specific Danceability: " + curr_danceability);
+     return (danceability + curr_danceability) / 2;
    }
 
     var mixSchema = new Schema({
