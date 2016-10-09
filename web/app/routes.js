@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 
 module.exports = function(app) {
 
+  var playlist_tracks = [];
   var client_id = 'eafbafd8462c416e9683f2cbecced544'; // Your client id
   var client_secret = '6d0b5783b6954ddf8d156dcd34bbb035'; // Your secret
 
@@ -16,6 +17,7 @@ module.exports = function(app) {
   var stateKey = 'spotify_auth_state';
 
   var Schema = mongoose.Schema;
+  
   //test interval function
   //setInterval(function() { console.log("setInterval: It's been one second!"); }, 1000);
 
@@ -113,7 +115,7 @@ module.exports = function(app) {
             console.log(body);
           });
 
-          //Get tracks from spotify
+          /* Get tracks from spotify
           var options = {
             url: 'https://api.spotify.com/v1/users/spotify/playlists/1GQLlzxBxKTb6tJsD4RxHI?market=ES',
             headers: { 'Authorization': 'Bearer ' + access_token },
@@ -123,21 +125,85 @@ module.exports = function(app) {
           request.get(options, function(error, response, body) {
             console.log(body.tracks.items[0]);
           });
+          */
 
+          //Object of playlist data
           var trackarray = {
             url: 'https://api.spotify.com/v1/users/spotify/playlists/1GQLlzxBxKTb6tJsD4RxHI?market=ES',
             headers: { 'Authorization': 'Bearer ' + access_token },
             json: true
           };
 
-          //Take track id, append
-          request.get(trackarray, function(error, response, body) {
-            for(var i = 0; i < body.tracks.items.length; i++){
-              console.log( i + ": " + body.tracks.items[i].track.id);
+          function gettracks(trackarray, fn) {
+            request.get(trackarray, function(error, response, body, sortedtracks) {
+              var tracklist = makelist(body.tracks.items);
+              fn(tracklist);
+            });
+
+          };
+
+          function makelist(items) {
+            var tracklist = [];
+            for(var i = 0; i < items.length; i++){
+              tracklist.push(items[i].track.id);
             }
+            return(tracklist);
+          }
+
+
+
+          var tracklist = [];
+          gettracks(trackarray, function (items){
+
+            tracklist = items;
+            var URLbegin = "https://api.spotify.com/v1/audio-features?ids=";
+
+            for(var i = 0; i < tracklist.length; i++) {
+              URLbegin += tracklist[i];
+
+              if (i != tracklist.length - 1) {
+                URLbegin += ',';
+              }
+            }
+
+            var audioarray = {
+              url: URLbegin,
+              headers: { 'Authorization': 'Bearer ' + access_token },
+              json:true
+            };
+
+            // Sort and print array of danceability and id.
+            request.get(audioarray, function(error, response, body) {
+
+              for(i = 0; i < body.audio_features.length; i++) {
+                  var track = {
+                    id: body.audio_features[i].id,
+                    danceability: body.audio_features[i].danceability,
+                  };
+                  playlist_tracks.push(track);
+              }
+              console.log(playlist_tracks[0].danceability);
+              playlist_tracks.sort(sort_by('danceability', true, parseFloat));
+              console.log(playlist_tracks[0]);
+            });
+
           });
 
 
+
+          //sort
+          var sort_by = function(field, reverse, primer) {
+
+            var key = primer ?
+            function(x) {return primer(x[field])} :
+            function(x) {return x[field]};
+
+            reverse = !reverse ? 1 : -1;
+
+            return function (a, b) {
+              return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+            }
+          }
 
           res.redirect('/#' + querystring.stringify({
             access_token: access_token,
