@@ -381,7 +381,7 @@ nav {
                             text: "Top Moments"
                         },
                         axisX: {						
-                            title: "Time (seconds)"
+                            title: "Time"
                         },
                         axisY: {						
                             title: "Danceability"
