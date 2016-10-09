@@ -11,8 +11,8 @@ module.exports = function(app) {
 
   var danceability = 0.5;
 
-  var client_id = 'eafbafd8462c416e9683f2cbecced544'; // Your client id
-  var client_secret = '6d0b5783b6954ddf8d156dcd34bbb035'; // Your secret
+  var client_id = '5facb3ec0e234f91bc7eb0e7a99a96d9'; // Your client id
+  var client_secret = '666e2cd36093405cada67f8d252a795d'; // Your secret
 
   var redirect_uri = 'http://localhost:8888/api/spotify/callback';
 
