@@ -151,7 +151,6 @@ module.exports = function(app) {
         res.send(err);
       }
       res.json(mixes);
-      }
     });
   });
 
