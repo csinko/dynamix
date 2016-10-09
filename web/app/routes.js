@@ -6,7 +6,11 @@ var mongoose = require('mongoose');
 
 module.exports = function(app) {
 
+
   var playlist_tracks = [];
+
+  var danceability = 0.5;
+
   var client_id = 'eafbafd8462c416e9683f2cbecced544'; // Your client id
   var client_secret = '6d0b5783b6954ddf8d156dcd34bbb035'; // Your secret
 
@@ -16,10 +20,59 @@ module.exports = function(app) {
 
   var stateKey = 'spotify_auth_state';
 
+  var user_data = [];
+
+
   var Schema = mongoose.Schema;
-  
+
+
   //test interval function
   //setInterval(function() { console.log("setInterval: It's been one second!"); }, 1000);
+
+  //10 second timer to check user_data
+  setInterval(function() {
+    console.log("Current Amount of user data is " + user_data.length);
+    danceability = determine_danceability();
+    user_data = [];
+
+
+   }, 10000);
+
+   function determine_danceability() {
+     var curr_danceability = 0;
+     var unique_users = [];
+     for(var i = 0; i < user_data.length; i++) {
+       user = user_data[i];
+       user_danceability = (1/500) * user.steps + (1/600) * (user.heart_rate - 80);
+       curr_danceability += user_danceability;
+       var exists = false;
+       for(var j = 0; j < unique_users.length; j++) {
+         if (user_data[i].user_id == unique_users[j]) {
+           exists = true;
+         }
+       }
+       if (!exists) {
+         unique_users.push(user_data[i].user_id);
+       }
+     }
+     curr_danceability /= user_data.length;
+     console.log(unique_users.length + " unique users");
+     curr_danceability += (1/60) * unique_users.length;
+     if (curr_danceability > 1) {
+       curr_danceability = 1;
+     }
+     if (curr_danceability < 0) {
+       curr_danceability = 0;
+     }
+     if (isNaN(curr_danceability)) {
+       curr_danceability = 0;
+     }
+
+     console.log("Specific Danceability: " + curr_danceability);
+     console.log("Avg Danceability: " + danceability);
+     return (danceability + curr_danceability) / 2;
+   }
+
 
     var mixSchema = new Schema({
       user_id: Number,
@@ -39,11 +92,48 @@ module.exports = function(app) {
 
   router.route('/mix')
   .post(function(req, res) {
+
+    if (req.body.hasOwnProperty('type')) {
+      if (req.body.type == 'array') {
+        var objects = req.body.data;
+        for(var i=0; i < objects.length; i++) {
+          add_mix_data(objects[i]);
+        }
+
+      }
+    }
+    function add_mix_data(data_obj) {
+      console.log("ADDING MIX DATA");
+      console.log(data_obj);
+    if(!data_obj.hasOwnProperty('user_id')) {
+      console.log('Error: No user_id');
+      res.status(400).json({
+        message: 'Error: no user_id'
+      });
+      return;
+    }
+    if(!data_obj.hasOwnProperty('heart_rate')) {
+      console.log('Error: No heart_rate');
+      res.status(400).json({
+        message: 'Error: no heart_rate'
+      });
+      return;
+    }
+    if(!data_obj.hasOwnProperty('steps')) {
+      console.log('Error: No steps');
+      res.status(400).json({
+        message: 'Error: no steps'
+      });
+      return;
+    }
+
     var mix = new mixModel({
-      user_id: 1,
-      heart_rate: 120,
-      steps: 50
+      user_id: data_obj.user_id,
+      heart_rate: data_obj.heart_rate,
+      steps: data_obj.steps
     });
+
+    user_data.push(mix);
 
     mix.save(function(err) {
       if (err) {
@@ -51,6 +141,7 @@ module.exports = function(app) {
         return;
       }
     });
+  }
 
     res.json({
       message: "mix saved in database"
