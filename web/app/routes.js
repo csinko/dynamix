@@ -226,11 +226,9 @@ module.exports = function(app) {
             request.get(options, function(error, response, body) {
               var dj_playlist = "";
               for(var i = 0; i < body.items.length; i++) {
-                console.log(body.items[i]);
-                console.log("-");
                 if(body.items[i].name == 'KHE') {
                   dj_playlist = body.items[i].id;
-                  console.log(body.items[i].name);
+                  console.log(body.items[i]);
                 }
               }
             });
