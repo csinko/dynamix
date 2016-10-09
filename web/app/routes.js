@@ -30,13 +30,24 @@ module.exports = function(app) {
 
    function determine_danceability() {
      var danceability = 0;
+     var unique_users = [];
      for(var i = 0; i < user_data.length; i++) {
        user = user_data[i];
        user_danceability = (1/500) * user.steps + (1/600) * (user.heart_rate - 80);
        danceability += user_danceability;
+       var exists = false;
+       for(var j = 0; j < unique_users.length; j++) {
+         if (user_data[i].user_id == unique_users.user_id) {
+           exists = true;
+         }
+       }
+       if (!exists) {
+         unique_users.push(user_data[i].user_id);
+       }
      }
      danceability /= user_data.length;
-     danceability += (1/60) * user_data.length;
+
+     danceability += (1/60) * unique_users.length;
      return danceability;
    }
 
