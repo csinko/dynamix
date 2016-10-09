@@ -252,7 +252,7 @@ module.exports = function(app) {
         dj_playlist = data.body.items[i].id;
       }
     }
-    return spotifyApi.getPlaylist('spotify', '1GQLlzxBxKTb6tJsD4RxHI')
+    return spotifyApi.getPlaylist('12721221', '3r2wxY9jV4ls42Tm8aMBWA')
   .then(function(data) {
     var audio_features_URL = "https://api.spotify.com/v1/audio-features?ids=";
     for(var i = 0; i < data.body.tracks.items.length; i++) {
