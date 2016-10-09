@@ -64,12 +64,16 @@ module.exports = function(app) {
 
       spotifyApi.setAccessToken(access_token);
       console.log("SPOTIFY INFO", 'mr005', dj_playlist, best_track.id);
-      spotifyApi.addTracksToPlaylist('mr005', dj_playlist, ["spotify:track:" + best_track.id])
+      spotifyApi.authorizationCodeGrant(code)
+      .then(function(data) {
+        sspotifyApi.setAccessToken(data.body['access_token']);
+        return spotifyApi.addTracksToPlaylist('mr005', dj_playlist, ["spotify:track:" + best_track.id])
       .then(function(data) {
         console.log('Added tracks to playlist!');
-      }, function(err) {
+      }).catch(function(err) {
         console.log('Something went wrong!', err);
-      });
+      })
+    });
 
     }
    }, 10000);
