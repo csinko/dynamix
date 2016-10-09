@@ -14,9 +14,9 @@ module.exports = function(app) {
   var client_id = '5facb3ec0e234f91bc7eb0e7a99a96d9'; // Your client id
   var client_secret = '666e2cd36093405cada67f8d252a795d'; // Your secret
 
-  var redirect_uri = 'http://localhost:8888/api/spotify/callback';
+  //var redirect_uri = 'http://localhost:8888/api/spotify/callback';
 
-  //var redirect_uri = 'http://dynamix.tech:8888/api/spotify/callback'; // Your redirect uri
+  var redirect_uri = 'http://dynamix.tech:8888/api/spotify/callback'; // Your redirect uri
 
   var stateKey = 'spotify_auth_state';
 
