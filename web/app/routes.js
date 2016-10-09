@@ -210,11 +210,28 @@ module.exports = function(app) {
     return spotifyApi.getUserPlaylists(spotify_user)
   .then(function(data) {
     console.log('Retrieved playlists', data.body);
+    for(var i = 0; i < data.body.items.length; i++) {
+      if(data.body.items[i].name == "KHE") {
+        dj_playlist = data.body.items[i].id;
+      }
+    }
+    return spotifyApi.getPlaylist('spotify', '1GQLlzxBxKTb6tJsD4RxHI')
+  .then(function(data) {
+    for(var i = 0; i < data.body.tracks.items.length; i++) {
+      var track_id = data.body.tracks.items[i].track.id);
+      spotifyApi.getAudioFeatures(track_id).then(function(data) {
+        console.log(data.body);
+      }).catch(function(err) {
+        console.log('Uh Oh', err.message);
+      });
+    }
+    console.log("AT END");
   })
   .catch(function(err) {
     console.log('Something went wrong', err.message);
   });
   });
+});
 });
 
 
