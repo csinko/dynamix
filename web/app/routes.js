@@ -23,7 +23,7 @@ module.exports = function(app) {
   //10 second timer to check user_data
   setInterval(function() {
     console.log("Current Amount of user data is " + user_data.length);
-    console.log("Current Danceability is " + determine_danceability());
+    danceability = determine_danceability();
     user_data = [];
 
 
