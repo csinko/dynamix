@@ -9,11 +9,15 @@ var SpotifyWebApi = require('spotify-web-api-node');
 var access_code;
 var access_token;
 var spotify_user;
+var scopes = ['user-read-private', 'user-read-email' 'playlist-read-private', 'playlist-modify-private'];
 var spotifyApi = new SpotifyWebApi({
   clientId : '5facb3ec0e234f91bc7eb0e7a99a96d9',
   clientSecret : '666e2cd36093405cada67f8d252a795d',
   redirectUri : 'http://dynamix.tech:8888/api/spotify/callback'
 });
+
+var authorizeURL = spotifyApi.createAuthorizeURL(scopes, "online");
+console.log(authorizeURL);
 
 
 module.exports = function(app) {
