@@ -7,6 +7,7 @@ var SpotifyWebApi = require('spotify-web-api-node');
 // credentials are optional
 
 var access_code;
+var access_token;
 var spotifyApi = new SpotifyWebApi({
   clientId : '5facb3ec0e234f91bc7eb0e7a99a96d9',
   clientSecret : '666e2cd36093405cada67f8d252a795d',
@@ -199,6 +200,7 @@ module.exports = function(app) {
 
     // Set the access token
     spotifyApi.setAccessToken(data.body['access_token']);
+    access_token = data.body['access_token']);
 
     // Use the access token to retrieve information about the user connected to it
     return spotifyApi.getMe();
@@ -217,14 +219,28 @@ module.exports = function(app) {
     }
     return spotifyApi.getPlaylist('spotify', '1GQLlzxBxKTb6tJsD4RxHI')
   .then(function(data) {
+    var audio_features_URL = "https://api.spotify.com/v1/audio-features?ids=";
     for(var i = 0; i < data.body.tracks.items.length; i++) {
       var track_id = data.body.tracks.items[i].track.id;
-      spotifyApi.getAudioFeatures(track_id).then(function(data) {
-        console.log(data.body);
-      }).catch(function(err) {
-        console.log('Uh Oh', err.message);
-      });
+      audio_features_URL += track_id;
+      if (i != data.body.tracks.items.length -1) audio_features_URL += ",";
     }
+    var audioFeaturesOptions = {
+      url: audio_features_URL,
+      headers: { 'Authorization': 'Bearer ' + access_token },
+      json:true
+    };
+    request.get(audioFeaturesOptions, function(error, response, body) {
+      for(i = 0; i < body.audio_features.length; i++) {
+        var track = {
+          id: body.audio_features[i].id,
+          danceability: body.audio_features[i].danceability,
+        };
+        playlist_tracks.push(track);
+      }
+      console.log(playlist_tracks); 
+    });
+
     console.log("AT END");
   })
   .catch(function(err) {
