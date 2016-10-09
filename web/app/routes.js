@@ -265,9 +265,9 @@ module.exports = function(app) {
     });
 
     console.log("AT END");
-    spotifyApi.addTracksToPlaylist('mr005', '1NwdLUQn6Rq3XwjaKAolRT', '3pUi08Z4eoQdPWfonAXHEn')
+    spotifyApi.createPlaylist('mr005', 'Test Playlist', { 'public' : false })
     .then(function(data) {
-      console.log('Added tracks to playlist!');
+      console.log('Created playlist!');
     }, function(err) {
       console.log('Something went wrong!', err);
     });
