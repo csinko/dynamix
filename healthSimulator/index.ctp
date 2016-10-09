@@ -1,5 +1,8 @@
 <script src="plugins/jquery/jquery.js"></script>
+<script src="plugins/jquery-ui-1.12.1/jquery-ui.js"></script>
 <script src="plugins/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="plugins/canvasjs-1/canvasjs.min.js"></script>
+<link rel="stylesheet" href="plugins/jquery-ui-1.12.1/jquery-ui.css">
 <link rel="stylesheet" href="plugins/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet" href="plugins/bootstrap/dist/css/bootstrap-theme.css">
 <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.css">
@@ -60,7 +63,10 @@
                 </div>
                 <div class="panel-body" id="secondTabContent" style="display: none;">
                     <div id="dataVisuals" class="btn-group col-sm-12")>
-                        test test test
+                        <h2>Steps-per-person</h2>
+                        <body>
+                            <div id="chartContainer" style="height: 500px; width: 50%;"></div>
+                        </body>
                     </div>      
                 </div>
             </div>
@@ -69,6 +75,32 @@
 </html>
 <script>
     $( document ).ready(function() {
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                data: [
+                {
+                    type: "column",
+                    dataPoints: [
+                    { label: "Mary", y: 18 },
+                    { label: "John", y: 29 },
+                    { label: "Steve",  y: 40 },                                    
+                    { label: "Aron",  y: 34 },
+                    { label: "Mica",  y: 24 },
+                    { label: "Mica",  y: 24 },
+                    { label: "Mica",  y: 24 },
+                    { label: "Mica",  y: 24 },
+                    { label: "Mica",  y: 24 },
+                    { label: "Mica",  y: 24 },
+                    { label: "Mica",  y: 24 },
+                    { label: "Mica",  y: 24 },
+                    { label: "Mica",  y: 24 },
+                    { label: "Mica",  y: 24 },
+                    ]
+                }
+                ]
+            });
+            chart.render();
+        }
         $('#firstTab').click(function(e){
             if(!$('#firstTabContent').is(':visible'))
             {
