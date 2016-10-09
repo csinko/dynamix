@@ -5,6 +5,8 @@ var mongoose = require('mongoose');
 var SpotifyWebApi = require('spotify-web-api-node');
 
 // credentials are optional
+
+var access_code;
 var spotifyApi = new SpotifyWebApi({
   clientId : '5facb3ec0e234f91bc7eb0e7a99a96d9',
   clientSecret : '666e2cd36093405cada67f8d252a795d',
@@ -191,9 +193,9 @@ module.exports = function(app) {
   /* Get the access token! */
   spotifyApi.authorizationCodeGrant(code)
     .then(function(data) {
-      console.log('The token expires in ' + data['expires_in']);
-      console.log('The access token is ' + data['access_token']);
-      console.log('The refresh token is ' + data['refresh_token']);
+      console.log('The token expires in ' + data.expires_in);
+      console.log('The access token is ' + data.access_token);
+      console.log('The refresh token is ' + data.refresh_token);
 
       /* Ok. We've got the access token!
          Save the access token for this user somewhere so that you can use it again.
@@ -201,7 +203,7 @@ module.exports = function(app) {
       */
 
       /* Redirecting back to the main page! :-) */
-      res.redirect('/');
+      //res.redirect('/');
 
     }, function(err) {
       res.status(err.code);
