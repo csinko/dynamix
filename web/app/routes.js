@@ -84,7 +84,7 @@ module.exports = function(app) {
 
   var router = express.Router();
   router.use(function(req, res, next) {
-  console.log('Incoming:');
+  //console.log('Incoming:');
   next();
 });
 
@@ -101,8 +101,8 @@ module.exports = function(app) {
       }
     }
     function add_mix_data(data_obj) {
-      console.log("ADDING MIX DATA");
-      console.log(data_obj);
+      //console.log("ADDING MIX DATA");
+      //console.log(data_obj);
     if(!data_obj.hasOwnProperty('user_id')) {
       console.log('Error: No user_id');
       res.status(400).json({
@@ -209,22 +209,10 @@ module.exports = function(app) {
           };
 
           request.get(options, function(error, response, body) {
+            console.log("--------------------------USER INFO----------------------------");
             console.log(body);
           });
 
-          /* Get tracks from spotify
-          var options = {
-            url: 'https://api.spotify.com/v1/users/spotify/playlists/1GQLlzxBxKTb6tJsD4RxHI?market=ES',
-            headers: { 'Authorization': 'Bearer ' + access_token },
-            json: true
-          };
-
-          request.get(options, function(error, response, body) {
-            console.log(body.tracks.items[0]);
-          });
-          */
-
-          //Object of playlist data
           var trackarray = {
             url: 'https://api.spotify.com/v1/users/spotify/playlists/1GQLlzxBxKTb6tJsD4RxHI?market=ES',
             headers: { 'Authorization': 'Bearer ' + access_token },
@@ -279,9 +267,9 @@ module.exports = function(app) {
                   };
                   playlist_tracks.push(track);
               }
-              console.log(playlist_tracks[0].danceability);
+              //console.log(playlist_tracks[0].danceability);
               playlist_tracks.sort(sort_by('danceability', true, parseFloat));
-              console.log(playlist_tracks[0]);
+              //console.log(playlist_tracks[0]);
             });
 
           });
