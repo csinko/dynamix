@@ -64,7 +64,7 @@ module.exports = function(app) {
 
       spotifyApi.setAccessToken(access_token);
       console.log("SPOTIFY INFO", 'mr005', dj_playlist, best_track.id);
-      spotifyApi.authorizationCodeGrant(code)
+      spotifyApi.authorizationCodeGrant(access_code)
       .then(function(data) {
         sspotifyApi.setAccessToken(data.body['access_token']);
         return spotifyApi.addTracksToPlaylist('mr005', dj_playlist, ["spotify:track:" + best_track.id])
