@@ -46,7 +46,7 @@ module.exports = function(app) {
     console.log("Current Amount of user data is " + user_data.length);
     danceability = determine_danceability();
     user_data = [];
-    console.log("Access code:" + access_code);
+  //  console.log("Access code:" + access_code);
 
    }, 10000);
 
