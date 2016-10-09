@@ -214,7 +214,7 @@ module.exports = function(app) {
             console.log("--------------------------USER INFO----------------------------");
             spotify_user = body;
             console.log(spotify_user.id);
-          });
+
           var temp_url = 'https://api.spotify.com/v1/users/' + spotify_user.id +  '/playlists';
 
           var options = {
@@ -226,6 +226,7 @@ module.exports = function(app) {
             request.get(options, function(error, response, body) {
               console.log("USER PLAYLISTS--------------------");
               console.log(body);
+            });
             });
 
           var trackarray = {
