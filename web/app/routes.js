@@ -224,8 +224,13 @@ module.exports = function(app) {
           };
 
             request.get(options, function(error, response, body) {
-              console.log("USER PLAYLISTS--------------------");
-              console.log(body);
+              var dj_playlist = "";
+              for(var i = 0; i < body.items; i++) {
+                if(body.items[i].name == 'KHE') {
+                  dj_playlist = body.items[i].id;
+                  console.log(body.items[i].name);
+                }
+              }
             });
             });
 
