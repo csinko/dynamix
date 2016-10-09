@@ -48,6 +48,7 @@ module.exports = function(app) {
   setInterval(function() {
     console.log("Current Amount of user data is " + user_data.length);
     danceability = determine_danceability();
+    user_data = [];
 
     if(first_run) {
       first_run = false;
