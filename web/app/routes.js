@@ -198,7 +198,7 @@ module.exports = function(app) {
       };
 
       request.post(authOptions, function(error, response, body) {
-        var user;
+        var spotify_user = "";
         if (!error && response.statusCode === 200) {
           var access_token = body.access_token,
               refresh_token = body.refresh_token;
@@ -211,12 +211,12 @@ module.exports = function(app) {
 
           request.get(options, function(error, response, body) {
             console.log("--------------------------USER INFO----------------------------");
-            console.log(body);
-            user = body;
+            spotify_user = body;
+            console.log(spotify_user);
           });
 
           var options = {
-            url: 'https://api.spotify.com/v1/users/' + user.id +  '/playlists',
+            url: 'https://api.spotify.com/v1/users/' + spotify_user.id +  '/playlists',
             headers: { 'Authorization': 'Bearer ' + access_token },
             json: true
           };
