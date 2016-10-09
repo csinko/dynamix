@@ -205,11 +205,17 @@ module.exports = function(app) {
   })
   .then(function(data) {
     console.log(data);
+    spotify_user = data.id;
+
+    return spotifyApi.getUserPlaylists(spotify_user);
+  .then(function(data) {
+    console.log('Retrieved playlists', data.body);
   })
   .catch(function(err) {
     console.log('Something went wrong', err.message);
   });
   });
+});
 
 
   router.route('/api/spotify/refresh_token', function(req, res) {
