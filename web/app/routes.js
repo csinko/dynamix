@@ -67,14 +67,12 @@ module.exports = function(app) {
       .then(function(data) {
         console.log('The access token has been refreshed!');
         spotifyApi.setAccessToken(data.body['access_token']);
-        spotifyApi.addTracksToPlaylist('mr005', dj_playlist, ["spotify:track:" + bt_id])
+        return spotifyApi.addTracksToPlaylist('mr005', dj_playlist, ["spotify:track:" + bt_id])
        .then(function(data) {
          console.log('Added tracks to playlist!');
-       });
-
-
-      }, function(err) {
+       }).catch(function(err) {
         console.log('Could not refresh access token', err);
+      })
       });
 
     }
