@@ -69,14 +69,14 @@ module.exports = function(app) {
         }
       }
       var bt_id = best_track.id;
-      console.log("SPOTIFY INFO", 'mr005', dj_playlist, bt_id);
+      //console.log("SPOTIFY INFO", 'mr005', dj_playlist, bt_id);
       spotifyApi.refreshAccessToken()
       .then(function(data) {
-        console.log('The access token has been refreshed!');
+        //console.log('The access token has been refreshed!');
         spotifyApi.setAccessToken(data.body['access_token']);
         return spotifyApi.addTracksToPlaylist('mr005', dj_playlist, ["spotify:track:" + bt_id])
        .then(function(data) {
-         console.log('Added tracks to playlist!');
+         console.log('Added track to playlist!');
        }).catch(function(err) {
         console.log('Could not refresh access token', err);
       })
@@ -225,7 +225,7 @@ module.exports = function(app) {
   /* Read query parameters */
   var code  = req.query.code; // Read the authorization code from the query parameters
   var state = req.query.state; // (Optional) Read the state from the query parameter
-  console.log("CODE: " + code);
+  //console.log("CODE: " + code);
   access_code = code;
   /* Get the access token! */
   spotifyApi.authorizationCodeGrant(code)
