@@ -187,7 +187,7 @@ module.exports = function(app) {
   /* Read query parameters */
   var code  = req.query.code; // Read the authorization code from the query parameters
   var state = req.query.state; // (Optional) Read the state from the query parameter
-
+  console.log("CODE: " + code);
   /* Get the access token! */
   spotifyApi.authorizationCodeGrant(code)
     .then(function(data) {
@@ -206,7 +206,7 @@ module.exports = function(app) {
     }, function(err) {
       res.status(err.code);
       res.send(err.message);
-    });
+    }
   });
 
 
