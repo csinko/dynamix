@@ -37,7 +37,7 @@ module.exports = function(app) {
        danceability += user_danceability;
        var exists = false;
        for(var j = 0; j < unique_users.length; j++) {
-         if (user_data[i].user_id == unique_users.user_id) {
+         if (user_data[i].user_id == unique_users[j]) {
            exists = true;
          }
        }
@@ -46,7 +46,7 @@ module.exports = function(app) {
        }
      }
      danceability /= user_data.length;
-
+     console.log(unique_users.length + " unique users");
      danceability += (1/60) * unique_users.length;
      return danceability;
    }
