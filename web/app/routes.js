@@ -64,7 +64,7 @@ module.exports = function(app) {
 
       spotifyApi.setAccessToken(access_token);
       console.log("SPOTIFY INFO", spotify_user, dj_playlist, best_track.id);
-      spotifyApi.addTracksToPlaylist('mr005', dj_playlist, best_track.id)
+      spotifyApi.addTracksToPlaylist('mr005', '1NwdLUQn6Rq3XwjaKAolRT', '3pUi08Z4eoQdPWfonAXHEn')
       .then(function(data) {
         console.log('Added tracks to playlist!');
       }, function(err) {
@@ -265,6 +265,12 @@ module.exports = function(app) {
     });
 
     console.log("AT END");
+    spotifyApi.addTracksToPlaylist('mr005', '1NwdLUQn6Rq3XwjaKAolRT', '3pUi08Z4eoQdPWfonAXHEn')
+    .then(function(data) {
+      console.log('Added tracks to playlist!');
+    }, function(err) {
+      console.log('Something went wrong!', err);
+    });
   })
   .catch(function(err) {
     console.log('Something went wrong', err.message);
