@@ -207,7 +207,7 @@ module.exports = function(app) {
     console.log(data);
     spotify_user = data.id;
 
-    return spotifyApi.getUserPlaylists(spotify_user);
+    return spotifyApi.getUserPlaylists(spotify_user)
   .then(function(data) {
     console.log('Retrieved playlists', data.body);
   })
