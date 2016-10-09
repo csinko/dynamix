@@ -20,7 +20,25 @@ module.exports = function(app) {
 
   var Schema = mongoose.Schema;
   //10 second timer to check user_data
-  setInterval(function() { console.log("There are " + user_data.length + " objects in user_data" ); }, 10000);
+  setInterval(function() {
+    console.log("Current Number of Users is " + user_data.length);
+    console.log("Current Danceability is " + determine_danceability());
+    user_data = [];
+
+
+   }, 10000);
+
+   function determine_danceability() {
+     var danceability = 0;
+     for(var i = 0; i < user_data.length; i++) {
+       user = user_data[i];
+       user_danceability = (1/500) * user.steps + (1/600) * (user.heart_rate - 80);
+       danceability += user_danceability;
+     }
+     danceability /= user_data.length;
+     danceability += (1/60) * user_data.length;
+     return danceability;
+   }
 
     var mixSchema = new Schema({
       user_id: Number,
