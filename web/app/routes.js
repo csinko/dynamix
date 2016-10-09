@@ -61,13 +61,13 @@ module.exports = function(app) {
           danceability_difference = Math.abs(playlist_tracks[i].danceability - danceability);
         }
       }
-
-      console.log("SPOTIFY INFO", 'mr005', dj_playlist, best_track.id);
+      var bt_id = best_track.id;
+      console.log("SPOTIFY INFO", 'mr005', dj_playlist, bt_id);
       spotifyApi.refreshAccessToken()
       .then(function(data) {
         console.log('The access token has been refreshed!');
         spotifyApi.setAccessToken(data.body['access_token']);
-        spotifyApi.addTracksToPlaylist('mr005', dj_playlist, ["spotify:track:" + best_track.id])
+        spotifyApi.addTracksToPlaylist('mr005', dj_playlist, ["spotify:track:" + bt_id])
        .then(function(data) {
          console.log('Added tracks to playlist!');
        });
