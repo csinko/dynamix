@@ -35,7 +35,6 @@ module.exports = function(app) {
     danceability = determine_danceability();
     user_data = [];
 
-
    }, 10000);
 
    function determine_danceability() {
@@ -72,7 +71,6 @@ module.exports = function(app) {
      console.log("Avg Danceability: " + danceability);
      return (danceability + curr_danceability) / 2;
    }
-
 
     var mixSchema = new Schema({
       user_id: Number,
@@ -146,6 +144,14 @@ module.exports = function(app) {
     res.json({
       message: "mix saved in database"
     });
+  })
+  .get(function(req, res) {
+    mixModel.find(function(err, mixes)) {
+      if(err) {
+        res.send(err);
+      }
+      res.json(mixes);
+    }
   });
 
   router.route('/spotify/login')
