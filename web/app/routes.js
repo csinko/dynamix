@@ -206,7 +206,7 @@ module.exports = function(app) {
     }, function(err) {
       res.status(err.code);
       res.send(err.message);
-    }
+    });
   });
 
 
