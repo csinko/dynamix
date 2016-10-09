@@ -55,7 +55,7 @@ module.exports = function(app) {
      if (curr_danceability < 0) {
        curr_danceability = 0;
      }
-     if (isNaN(curr_danceability) {
+     if (isNaN(curr_danceability)) {
        curr_danceability = 0;
      }
 
