@@ -8,6 +8,7 @@ module.exports = function(app) {
 
 
   var playlist_tracks = [];
+  var spotify_user = "";
 
   var danceability = 0.5;
 
@@ -198,7 +199,7 @@ module.exports = function(app) {
       };
 
       request.post(authOptions, function(error, response, body) {
-        var spotify_user = "";
+
         if (!error && response.statusCode === 200) {
           var access_token = body.access_token,
               refresh_token = body.refresh_token;
@@ -215,8 +216,10 @@ module.exports = function(app) {
             console.log(spotify_user);
           });
 
+          var temp_url = 'https://api.spotify.com/v1/users/' + spotify_user.id +  '/playlists';
+
           var options = {
-            url: 'https://api.spotify.com/v1/users/' + spotify_user.id +  '/playlists',
+            url: temp_url,
             headers: { 'Authorization': 'Bearer ' + access_token },
             json: true
           };
