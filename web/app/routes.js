@@ -62,20 +62,20 @@ module.exports = function(app) {
         }
       }
 
-      spotifyApi.setAccessToken(access_token);
       console.log("SPOTIFY INFO", 'mr005', dj_playlist, best_track.id);
-      console.log("ACCESS CODE", access_code);
-      spotifyApi.authorizationCodeGrant(access_code)
+      spotifyApi.refreshAccessToken()
       .then(function(data) {
+        console.log('The access token has been refreshed!');
         spotifyApi.setAccessToken(data.body['access_token']);
-        console.log("Access Token Set");
-        return spotifyApi.addTracksToPlaylist('mr005', dj_playlist, ["spotify:track:" + best_track.id])
-      .then(function(data) {
-        console.log('Added tracks to playlist!');
-      }).catch(function(err) {
-        console.log('Something went wrong!', err);
-      })
-    });
+        spotifyApi.addTracksToPlaylist('mr005', dj_playlist, ["spotify:track:" + best_track.id])
+       .then(function(data) {
+         console.log('Added tracks to playlist!');
+       });
+
+
+      }, function(err) {
+        console.log('Could not refresh access token', err);
+      });
 
     }
    }, 10000);
@@ -229,6 +229,7 @@ module.exports = function(app) {
 
     // Set the access token
     spotifyApi.setAccessToken(data.body['access_token']);
+    spotifyApi.setRefreshToken(data.body['refresh_token']);
     access_token = data.body['access_token'];
 
     // Use the access token to retrieve information about the user connected to it
