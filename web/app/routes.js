@@ -146,12 +146,13 @@ module.exports = function(app) {
     });
   })
   .get(function(req, res) {
-    mixModel.find(function(err, mixes)) {
+    mixModel.find(function(err, mixes) {
       if(err) {
         res.send(err);
       }
       res.json(mixes);
-    }
+      }
+    });
   });
 
   router.route('/spotify/login')
