@@ -56,7 +56,7 @@ module.exports = function(app) {
       var danceability_difference = 1;
       for(var i = 0; i < playlist_tracks.length; i++) {
         if(Math.abs(playlist_tracks[i].danceability - danceability) < danceability_difference) {
-          best_track = playlist_tracksp[i];
+          best_track = playlist_tracks[i];
           danceability_difference = Math.abs(playlist_tracks[i].danceability - danceability);
         }
       }
