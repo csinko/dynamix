@@ -227,6 +227,7 @@ module.exports = function(app) {
               var dj_playlist = "";
               for(var i = 0; i < body.items; i++) {
                 console.log(body.items[i]);
+                console.log("-");
                 if(body.items[i].name == 'KHE') {
                   dj_playlist = body.items[i].id;
                   console.log(body.items[i].name);
