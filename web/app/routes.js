@@ -268,8 +268,7 @@ module.exports = function(app) {
     return spotifyApi.createPlaylist('mr005', 'Test Playlist', { 'public' : false })
     .then(function(data) {
       console.log('Created playlist!');
-    }
-  })
+    })
   .catch(function(err) {
     console.log('Something went wrong', err.message);
   });
