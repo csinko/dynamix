@@ -175,156 +175,32 @@ module.exports = function(app) {
 
   router.route('/spotify/callback')
   .get(function(req, res) {
-    var code = req.query.code || null;
-    var state = req.query.state || null;
-    var storedState = req.cookies ? req.cookies[stateKey] : null;
 
-    if (state === null || state !== storedState) {
-      res.redirect('/#' +
-        querystring.stringify({
-          error: 'state_mismatch'
-        }));
-    } else {
-      res.clearCookie(stateKey);
-      var authOptions = {
-        url: 'https://accounts.spotify.com/api/token',
-        form: {
-          code: code,
-          redirect_uri: redirect_uri,
-          grant_type: 'authorization_code'
-        },
-        headers: {
-          'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
-        },
-        json: true
-      };
+  /* Read query parameters */
+  var code  = req.query.code; // Read the authorization code from the query parameters
+  var state = req.query.state; // (Optional) Read the state from the query parameter
 
-      request.post(authOptions, function(error, response, body) {
+  /* Get the access token! */
+  spotifyApi.authorizationCodeGrant(code)
+    .then(function(data) {
+      console.log('The token expires in ' + data['expires_in']);
+      console.log('The access token is ' + data['access_token']);
+      console.log('The refresh token is ' + data['refresh_token']);
 
-        if (!error && response.statusCode === 200) {
-          var access_token = body.access_token,
-              refresh_token = body.refresh_token;
+      /* Ok. We've got the access token!
+         Save the access token for this user somewhere so that you can use it again.
+         Cookie? Local storage?
+      */
 
-          var options = {
-            url: 'https://api.spotify.com/v1/me',
-            headers: { 'Authorization': 'Bearer ' + access_token },
-            json: true
-          };
+      /* Redirecting back to the main page! :-) */
+      res.redirect('/');
 
-          request.get(options, function(error, response, body) {
-            console.log("--------------------------USER INFO----------------------------");
-            spotify_user = body;
-            console.log(spotify_user.id);
-
-          var temp_url = 'https://api.spotify.com/v1/users/' + spotify_user.id +  '/playlists';
-
-          var options = {
-            url: temp_url,
-            headers: { 'Authorization': 'Bearer ' + access_token },
-            json: true
-          };
-
-            request.get(options, function(error, response, body) {
-              for(var i = 0; i < body.items.length; i++) {
-                if(body.items[i].name == 'KHE') {
-                  dj_playlist = body.items[i].id;
-                  console.log(body.items[i]);
-                }
-              }
-            });
-            console.log("DJ PLAYLIST ID IS " + dj_playlist);
-            });
-
-          var trackarray = {
-            url: 'https://api.spotify.com/v1/users/spotify/playlists/1GQLlzxBxKTb6tJsD4RxHI?market=ES',
-            headers: { 'Authorization': 'Bearer ' + access_token },
-            json: true
-          };
-
-          function gettracks(trackarray, fn) {
-            request.get(trackarray, function(error, response, body, sortedtracks) {
-              var tracklist = makelist(body.tracks.items);
-              fn(tracklist);
-            });
-
-          };
-
-          function makelist(items) {
-            var tracklist = [];
-            for(var i = 0; i < items.length; i++){
-              tracklist.push(items[i].track.id);
-            }
-            return(tracklist);
-          }
-
-
-
-          var tracklist = [];
-          gettracks(trackarray, function (items){
-
-            tracklist = items;
-            var URLbegin = "https://api.spotify.com/v1/audio-features?ids=";
-
-            for(var i = 0; i < tracklist.length; i++) {
-              URLbegin += tracklist[i];
-
-              if (i != tracklist.length - 1) {
-                URLbegin += ',';
-              }
-            }
-
-            var audioarray = {
-              url: URLbegin,
-              headers: { 'Authorization': 'Bearer ' + access_token },
-              json:true
-            };
-
-            // Sort and print array of danceability and id.
-            request.get(audioarray, function(error, response, body) {
-
-              for(i = 0; i < body.audio_features.length; i++) {
-                  var track = {
-                    id: body.audio_features[i].id,
-                    danceability: body.audio_features[i].danceability,
-                  };
-                  playlist_tracks.push(track);
-              }
-              //console.log(playlist_tracks[0].danceability);
-              playlist_tracks.sort(sort_by('danceability', true, parseFloat));
-              //console.log(playlist_tracks[0]);
-            });
-
-          });
-
-
-
-          //sort
-          var sort_by = function(field, reverse, primer) {
-
-            var key = primer ?
-            function(x) {return primer(x[field])} :
-            function(x) {return x[field]};
-
-            reverse = !reverse ? 1 : -1;
-
-            return function (a, b) {
-              return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
-            }
-          }
-
-          res.redirect('/#' + querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token
-          }));
-        } else {
-          res.redirect('/#' +
-            querystring.stringify({
-              error: 'invalid_token'
-            }));
-        }
-      });
+    }, function(err) {
+      res.status(err.code);
+      res.send(err.message);
     }
   });
+  
 
   router.route('/api/spotify/refresh_token', function(req, res) {
     var refresh_token = req.query.refresh_token;
