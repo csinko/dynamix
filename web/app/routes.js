@@ -200,7 +200,7 @@ module.exports = function(app) {
 
     // Set the access token
     spotifyApi.setAccessToken(data.body['access_token']);
-    access_token = data.body['access_token']);
+    access_token = data.body['access_token'];
 
     // Use the access token to retrieve information about the user connected to it
     return spotifyApi.getMe();
@@ -238,7 +238,7 @@ module.exports = function(app) {
         };
         playlist_tracks.push(track);
       }
-      console.log(playlist_tracks); 
+      console.log(playlist_tracks);
     });
 
     console.log("AT END");
