@@ -2,6 +2,14 @@ var express  = require('express');
 var querystring = require('querystring');
 var request = require('request');
 var mongoose = require('mongoose');
+var SpotifyWebApi = require('spotify-web-api-node');
+
+// credentials are optional
+var spotifyApi = new SpotifyWebApi({
+  clientId : '5facb3ec0e234f91bc7eb0e7a99a96d9',
+  clientSecret : '666e2cd36093405cada67f8d252a795d',
+  redirectUri : 'http://dynamix.tech:8888/api/spotify/callback'
+});
 
 
 module.exports = function(app) {
@@ -200,7 +208,7 @@ module.exports = function(app) {
       res.send(err.message);
     }
   });
-  
+
 
   router.route('/api/spotify/refresh_token', function(req, res) {
     var refresh_token = req.query.refresh_token;
