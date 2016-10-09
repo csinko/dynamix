@@ -55,6 +55,9 @@ module.exports = function(app) {
      if (curr_danceability < 0) {
        curr_danceability = 0;
      }
+     if (isNaN(curr_danceability) {
+       curr_danceability = 0;
+     }
 
      console.log("Specific Danceability: " + curr_danceability);
      return (danceability + curr_danceability) / 2;
