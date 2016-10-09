@@ -8,6 +8,7 @@ var SpotifyWebApi = require('spotify-web-api-node');
 
 var access_code;
 var access_token;
+var spotify_user;
 var spotifyApi = new SpotifyWebApi({
   clientId : '5facb3ec0e234f91bc7eb0e7a99a96d9',
   clientSecret : '666e2cd36093405cada67f8d252a795d',
@@ -19,7 +20,7 @@ module.exports = function(app) {
 
 
   var playlist_tracks = [];
-  var spotify_user = "";
+
   var dj_playlist = [];
 
   var danceability = 0.5;
