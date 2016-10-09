@@ -195,9 +195,6 @@ module.exports = function(app) {
   /* Get the access token! */
   spotifyApi.authorizationCodeGrant(code)
     .then(function(data) {
-      console.log('The token expires in ' + data.expires_in);
-      console.log('The access token is ' + data.access_token);
-      console.log('The refresh token is ' + data.refresh_token);
 
       /* Ok. We've got the access token!
          Save the access token for this user somewhere so that you can use it again.
@@ -205,7 +202,13 @@ module.exports = function(app) {
       */
 
       /* Redirecting back to the main page! :-) */
-      //res.redirect('/');
+      res.redirect('/');
+      spotifyApi.getMe()
+      .then(function(data) {
+        console.log("DATA");
+        console.log(data);
+      }
+
 
     }, function(err) {
       res.status(err.code);
