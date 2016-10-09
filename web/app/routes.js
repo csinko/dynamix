@@ -9,6 +9,7 @@ module.exports = function(app) {
 
   var playlist_tracks = [];
   var spotify_user = "";
+  var dj_playlist = "";
 
   var danceability = 0.5;
 
@@ -224,7 +225,6 @@ module.exports = function(app) {
           };
 
             request.get(options, function(error, response, body) {
-              var dj_playlist = "";
               for(var i = 0; i < body.items.length; i++) {
                 if(body.items[i].name == 'KHE') {
                   dj_playlist = body.items[i].id;
@@ -232,6 +232,7 @@ module.exports = function(app) {
                 }
               }
             });
+            console.log("DJ PLAYLIST ID IS " + dj_playlist);
             });
 
           var trackarray = {
